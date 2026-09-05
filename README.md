@@ -11,7 +11,8 @@ Comprehensive solutions and detailed conceptual explanations in Java for coding 
 │   ├── q2.java    # Subarray Dominance Score (Dynamic Programming)
 │   ├── q3.java    # Minimum Adjacent Swaps for Binary Strings (Median & Two-Pointer)
 │   ├── q4.java    # Paint House with Budget Constraint (2D Dynamic Programming)
-│   └── q5.java    # Maximum Consecutive Vacation Days (Sliding Window & Boundary Array)
+│   ├── q5.java    # Maximum Consecutive Vacation Days (Sliding Window & Boundary Array)
+│   └── q6.java    # Data Center Cooling System (Greedy Interval Queries with Turbo Mode)
 │
 ├── InfosysDSP_SP/
 │   ├── q1.java    # Maximum Value by Removing a Digit
@@ -51,6 +52,14 @@ Comprehensive solutions and detailed conceptual explanations in Java for coding 
 - **Core Technique**: Sliding Window with Virtual Boundary Array ($O(M \log M)$ time, $O(M)$ space).
 - **Key Formula**:
   $$\text{Vacation Days} = \text{arr}[j + K] - \text{arr}[j - 1] - 1$$
+
+### 5. Data Center Cooling System (`InfosysSPDSEOneShot/q6.java`)
+- **Objective**: Execute point updates and range queries to greedily select up to $k$ cooling units at least $d$ intervals apart to maximize heat reduction.
+- **Core Technique**: Greedy Sorting + `TreeSet` distance checking ($O(L \log L + L \log k)$ per query).
+- **Key Mode**:
+  - Turbo Mode ($\text{heat} \ge \text{critical}$): Contributes $4 \times \text{heat}$.
+  - Normal Mode ($\text{heat} < \text{critical}$): Contributes $1 \times \text{heat}$.
+  - Computes and returns the cumulative sum of all query results.
 
 ---
 

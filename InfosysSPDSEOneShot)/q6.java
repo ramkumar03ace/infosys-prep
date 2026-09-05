@@ -13,7 +13,7 @@ public class q6 {
      */
     public static long getContribution(long heatLoad, long critical) {
         if (heatLoad >= critical) {
-            return 2 * heatLoad; // Turbo mode: 2x contribution
+            return 4 * heatLoad; // Turbo mode: 4x contribution
         }
         return heatLoad; // Normal mode: 1x contribution
     }
@@ -116,9 +116,9 @@ public class q6 {
         List<long[]> operations = new ArrayList<>();
         // Query 1: range [0, 5], pick at most 2 units, critical = 35
         // Candidates sorted: 50 (idx 1), 40 (idx 4), 30 (idx 2), 20 (idx 3), 15 (idx 5), 10 (idx 0)
-        // Pick 50 (idx 1) -> enters turbo mode (50 >= 35) -> contributes 2 * 50 = 100
-        // Next pick: 40 (idx 4) -> valid (|4 - 1| = 3 >= 2) -> turbo mode (40 >= 35) -> contributes 2 * 40 = 80
-        // Query result = 100 + 80 = 180
+        // Pick 50 (idx 1) -> enters turbo mode (50 >= 35) -> contributes 4 * 50 = 200
+        // Next pick: 40 (idx 4) -> valid (|4 - 1| = 3 >= 2) -> turbo mode (40 >= 35) -> contributes 4 * 40 = 160
+        // Query result = 200 + 160 = 360
         operations.add(new long[] { 2, 0, 5, 2, 35 });
 
         // Update 1: update position 1 to 25
@@ -126,13 +126,13 @@ public class q6 {
 
         // Query 2: range [0, 3], pick at most 2 units, critical = 25
         // Range heat: idx 0: 10, idx 1: 25, idx 2: 30, idx 3: 20
-        // Pick 30 (idx 2) -> turbo mode (30 >= 25) -> contributes 60
+        // Pick 30 (idx 2) -> turbo mode (30 >= 25) -> contributes 4 * 30 = 120
         // Next valid: idx 0 (dist |2 - 0| = 2 >= 2) -> normal mode (10 < 25) -> contributes 10
-        // Query result = 60 + 10 = 70
+        // Query result = 120 + 10 = 130
         operations.add(new long[] { 2, 0, 3, 2, 25 });
 
         long totalSum = solveCoolingSystem(n, d, initialHeat, operations);
-        System.out.println("Total Sum of all queries: " + totalSum); // Expected: 180 + 70 = 250
+        System.out.println("Total Sum of all queries: " + totalSum); // Expected: 360 + 130 = 490
 
         /*
          * Interactive Scanner template for online assessment platforms:
@@ -197,7 +197,7 @@ public class q6 {
 
 ----------------------------------------------------------------------------------------
 3. TURBO VS NORMAL MODE CONTRIBUTION:
-   - Turbo Mode (heat >= critical): Contributes 2 * heat load (boosted cooling).
+   - Turbo Mode (heat >= critical): Contributes 4 * heat load (boosted cooling).
    - Normal Mode (heat < critical): Contributes 1 * heat load.
 
 ----------------------------------------------------------------------------------------
