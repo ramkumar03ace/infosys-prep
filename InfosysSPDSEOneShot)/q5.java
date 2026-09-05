@@ -46,17 +46,14 @@ public class q5 {
         for (int R = k - 1; R < m; R++) {
             int L = R - k + 1; // Left pointer
 
-            // Start of vacation:
-            // If L == 0 (no obligations to the left), vacation starts on Day 1.
-            // Otherwise, it starts the day after obligation d[L - 1].
-            long startDay = (L == 0) ? 1 : d[L - 1] + 1;
+            // The uncancelled obligation to the left (or Day 0 if none)
+            long leftBound = (L > 0) ? d[L - 1] : 0;
 
-            // End of vacation:
-            // If R == m - 1 (no obligations to the right), vacation ends on Day N.
-            // Otherwise, it ends the day before obligation d[R + 1].
-            long endDay = (R == m - 1) ? n : d[R + 1] - 1;
+            // The uncancelled obligation to the right (or Day n + 1 if none)
+            long rightBound = (R < m - 1) ? d[R + 1] : n + 1;
 
-            long vacationDays = endDay - startDay + 1;
+            // Free days strictly between two obligations A and B is simply: B - A - 1
+            long vacationDays = rightBound - leftBound - 1;
             maxVacation = Math.max(maxVacation, vacationDays);
         }
 
