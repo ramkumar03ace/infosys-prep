@@ -20,40 +20,35 @@ public class q5 {
      * @return Maximum consecutive vacation days
      */
     public static long getMaxVacationDays(long n, int m, int k, long[] d) {
-        // Edge Case 1: No obligations or can cancel all of them -> take all N days
+        // If there are no obligations or we can cancel all of them -> full N days
         if (m == 0 || k >= m) {
             return n;
         }
 
-        // Sort the obligation days in ascending order
+        // 1. Sort the obligation days
         Arrays.sort(d);
 
-        // Edge Case 2: Cannot cancel any obligations (K = 0)
-        // Check the gaps between obligations directly
-        if (k == 0) {
-            long maxVacation = d[0] - 1; // Gap before first obligation
-            for (int i = 1; i < m; i++) {
-                maxVacation = Math.max(maxVacation, d[i] - d[i - 1] - 1);
-            }
-            maxVacation = Math.max(maxVacation, n - d[m - 1]); // Gap after last obligation
-            return maxVacation;
+        // 2. Make a new array starting with 0 and ending with n + 1:
+        //    all[0] = 0        (virtual obligation before Day 1)
+        //    all[1..m] = d     (the actual obligations)
+        //    all[m + 1] = n + 1 (virtual obligation after Day n)
+        long[] all = new long[m + 2];
+        all[0] = 0;
+        for (int i = 0; i < m; i++) {
+            all[i + 1] = d[i];
         }
+        all[m + 1] = n + 1;
 
         long maxVacation = 0;
 
-        // TWO POINTERS: L and R
-        // Window [L, R] holds exactly K canceled obligations (R - L + 1 == K)
-        for (int R = k - 1; R < m; R++) {
-            int L = R - k + 1; // Left pointer
-
-            // The uncancelled obligation to the left (or Day 0 if none)
-            long leftBound = (L > 0) ? d[L - 1] : 0;
-
-            // The uncancelled obligation to the right (or Day n + 1 if none)
-            long rightBound = (R < m - 1) ? d[R + 1] : n + 1;
-
-            // Free days strictly between two obligations A and B is simply: B - A - 1
-            long vacationDays = rightBound - leftBound - 1;
+        // 3. Two Pointers L and R:
+        //    Window [L, R] holds exactly K canceled obligations (size = K).
+        //    Left uncancelled obligation is ALWAYS: all[L - 1]
+        //    Right uncancelled obligation is ALWAYS: all[R + 1]
+        //    Days in between is ALWAYS: all[R + 1] - all[L - 1] - 1
+        for (int R = k; R <= m; R++) {
+            int L = R - k + 1;
+            long vacationDays = all[R + 1] - all[L - 1] - 1;
             maxVacation = Math.max(maxVacation, vacationDays);
         }
 
