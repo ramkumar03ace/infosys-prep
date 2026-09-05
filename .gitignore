@@ -1,0 +1,23 @@
+# Compiled Java class files
+*.class
+
+# Log files
+*.log
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# IDE & Editor files
+.vscode/
+.idea/
+*.iml
+.settings/
+.project
+.classpath
+bin/
